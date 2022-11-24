@@ -1,0 +1,22 @@
+version: "3.9"
+
+services:
+  mysql:
+    image: mysql:latest
+    container_name: mysqldb
+    env_file:
+      - ./.env
+    ports:
+      - "3306:3306"
+
+  it-company-service:
+    build: .
+    image: who4m1/it-company-service
+    container_name: it-company-service
+    env_file:
+      - ./.env
+    depends_on:
+      - mysql
+    ports:
+      - "8088:8088"
+    restart: unless-stopped
